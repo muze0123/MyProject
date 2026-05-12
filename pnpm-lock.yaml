@@ -540,6 +540,9 @@ importers:
       '@changesets/cli':
         specifier: 'catalog:'
         version: 2.31.0(@types/node@25.6.0)
+      '@eslint-community/eslint-plugin-eslint-comments':
+        specifier: 'catalog:'
+        version: 4.7.1(eslint@10.2.1(jiti@2.6.1))
       '@tsdown/css':
         specifier: 'catalog:'
         version: 0.21.10(jiti@2.6.1)(postcss@8.5.12)(sass-embedded@1.99.0)(sass@1.99.0)(tsdown@0.21.10)(yaml@2.8.3)
