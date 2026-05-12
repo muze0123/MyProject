@@ -74,7 +74,7 @@ apps/web-antd/src/
 ### Linting Tools
 
 | Tool | Purpose | Commands |
-|------|---------|----------|
+| --- | --- | --- |
 | Oxfmt | Code formatting | `pnpm oxfmt` |
 | Oxlint | JS/TS linting | `pnpm oxlint` |
 | ESLint | Vue/JSON/YAML | `pnpm eslint . --cache` |
@@ -94,26 +94,26 @@ apps/web-antd/src/
 
 ### Configuration Files
 
-| File | Purpose |
-|------|---------|
-| `oxfmt.config.ts` | Code formatter config |
-| `oxlint.config.ts` | JS/TS linter config |
-| `eslint.config.mjs` | Vue/JSON/YAML rules |
-| `stylelint.config.mjs` | CSS style rules |
-| `lefthook.yml` | Git hooks configuration |
-| `cspell.json` | Spell check config |
+| File                   | Purpose                 |
+| ---------------------- | ----------------------- |
+| `oxfmt.config.ts`      | Code formatter config   |
+| `oxlint.config.ts`     | JS/TS linter config     |
+| `eslint.config.mjs`    | Vue/JSON/YAML rules     |
+| `stylelint.config.mjs` | CSS style rules         |
+| `lefthook.yml`         | Git hooks configuration |
+| `cspell.json`          | Spell check config      |
 
 ### Naming Conventions
 
-| Type | Convention | Example |
-|------|------------|---------|
-| Vue Components | PascalCase | `UserProfile.vue` |
-| Composables | camelCase with `use` prefix | `useUserAuth.ts` |
-| API Modules | camelCase | `userAuth.ts` |
-| Store Modules | camelCase or PascalCase | `useUserStore.ts` |
-| Route Files | kebab-case | `user-auth.ts` |
-| Constants | SCREAMING_SNAKE_CASE | `MAX_RETRY_COUNT` |
-| Types/Interfaces | PascalCase | `UserInfo`, `OrderStatus` |
+| Type             | Convention                  | Example                   |
+| ---------------- | --------------------------- | ------------------------- |
+| Vue Components   | PascalCase                  | `UserProfile.vue`         |
+| Composables      | camelCase with `use` prefix | `useUserAuth.ts`          |
+| API Modules      | camelCase                   | `userAuth.ts`             |
+| Store Modules    | camelCase or PascalCase     | `useUserStore.ts`         |
+| Route Files      | kebab-case                  | `user-auth.ts`            |
+| Constants        | SCREAMING_SNAKE_CASE        | `MAX_RETRY_COUNT`         |
+| Types/Interfaces | PascalCase                  | `UserInfo`, `OrderStatus` |
 
 ---
 
@@ -131,19 +131,19 @@ Follow [Angular Convention](https://github.com/conventional-changelog/convention
 
 **Types:**
 
-| Type | Description |
-|------|-------------|
-| `feat` | New feature |
-| `fix` | Bug fix |
-| `style` | Code style changes (no runtime impact) |
-| `perf` | Performance improvement |
-| `refactor` | Code refactoring |
-| `test` | Test updates |
-| `docs` | Documentation changes |
-| `chore` | Dependency updates, config changes |
-| `workflow` | Workflow improvements |
-| `ci` | CI/CD changes |
-| `types` | Type definition changes |
+| Type       | Description                            |
+| ---------- | -------------------------------------- |
+| `feat`     | New feature                            |
+| `fix`      | Bug fix                                |
+| `style`    | Code style changes (no runtime impact) |
+| `perf`     | Performance improvement                |
+| `refactor` | Code refactoring                       |
+| `test`     | Test updates                           |
+| `docs`     | Documentation changes                  |
+| `chore`    | Dependency updates, config changes     |
+| `workflow` | Workflow improvements                  |
+| `ci`       | CI/CD changes                          |
+| `types`    | Type definition changes                |
 
 **Examples:**
 
@@ -158,11 +158,11 @@ chore(deps): update ant-design-vue to 4.2.6
 
 Hooks run automatically on git events:
 
-| Hook | Trigger | Purpose |
-|------|---------|---------|
+| Hook         | Trigger       | Purpose                    |
+| ------------ | ------------- | -------------------------- |
 | `pre-commit` | Before commit | Format & lint staged files |
-| `post-merge` | After merge | Auto-install dependencies |
-| `commit-msg` | On commit | Validate commit message |
+| `post-merge` | After merge   | Auto-install dependencies  |
+| `commit-msg` | On commit     | Validate commit message    |
 
 **Bypass hooks (not recommended):**
 
@@ -286,6 +286,7 @@ export async function createOrderApi(data: CreateOrderDTO) {
 ### Request Client Pattern
 
 Use `requestClient` which provides:
+
 - Automatic base URL handling
 - Authentication headers
 - Error handling
@@ -408,16 +409,16 @@ const title = t('demos.title');
 
 ### Common Commands
 
-| Command | Description |
-|---------|-------------|
-| `pnpm dev:antd` | Start Ant Design variant |
-| `pnpm dev:naive` | Start Naive UI variant |
-| `pnpm build` | Build all packages |
-| `pnpm build:antd` | Build specific app |
-| `pnpm check:type` | TypeScript type check |
-| `pnpm lint` | Run all linters |
-| `pnpm format` | Format code |
-| `pnpm test:unit` | Run unit tests |
+| Command           | Description              |
+| ----------------- | ------------------------ |
+| `pnpm dev:antd`   | Start Ant Design variant |
+| `pnpm dev:naive`  | Start Naive UI variant   |
+| `pnpm build`      | Build all packages       |
+| `pnpm build:antd` | Build specific app       |
+| `pnpm check:type` | TypeScript type check    |
+| `pnpm lint`       | Run all linters          |
+| `pnpm format`     | Format code              |
+| `pnpm test:unit`  | Run unit tests           |
 
 ### Environment Setup
 
@@ -449,14 +450,14 @@ To add a new build environment (e.g., test):
 
 ### Key Dependencies
 
-| Package | Purpose |
-|---------|---------|
-| `@vben/vite-config` | Shared Vite configuration |
-| `@vben/common-ui` | Cross-framework UI components |
-| `@vben/hooks` | Vue composables |
-| `@vben/access` | Permission control |
-| `@vben/request` | HTTP client |
-| `@vben/stores` | State management |
+| Package             | Purpose                       |
+| ------------------- | ----------------------------- |
+| `@vben/vite-config` | Shared Vite configuration     |
+| `@vben/common-ui`   | Cross-framework UI components |
+| `@vben/hooks`       | Vue composables               |
+| `@vben/access`      | Permission control            |
+| `@vben/request`     | HTTP client                   |
+| `@vben/stores`      | State management              |
 
 ### Related Documentation
 
