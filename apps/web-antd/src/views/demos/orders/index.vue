@@ -18,7 +18,13 @@ import {
   Tag,
 } from 'ant-design-vue';
 
-import { batchDeleteOrderApi, createOrderApi, deleteOrderApi, getOrderListApi, updateOrderApi } from '#/api/demos/orders';
+import {
+  batchDeleteOrderApi,
+  createOrderApi,
+  deleteOrderApi,
+  getOrderListApi,
+  updateOrderApi,
+} from '#/api/demos/orders';
 
 // State
 const loading = ref(false);
@@ -230,7 +236,7 @@ async function handleExport() {
       ...rows.map((row) => row.join(',')),
     ].join('\n');
 
-    const blob = new Blob([`\uFEFF${  csvContent}`], {
+    const blob = new Blob([`\uFEFF${csvContent}`], {
       type: 'text/csv;charset=utf-8',
     });
     const url = URL.createObjectURL(blob);
@@ -336,8 +342,8 @@ onMounted(loadData);
         <template v-else-if="column.key === 'action'">
           <Space>
             <Button size="small" type="link" @click="handleEdit(record)">
-编辑
-</Button>
+              编辑
+            </Button>
             <Button
               size="small"
               type="link"
