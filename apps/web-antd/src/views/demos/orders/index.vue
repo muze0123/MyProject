@@ -3,8 +3,6 @@ import type { Order } from '#/api/demos/orders';
 
 import { onMounted, reactive, ref } from 'vue';
 
-import { Page } from '@vben/common-ui';
-
 import {
   Button,
   Form,
@@ -255,113 +253,228 @@ async function handleExport() {
 onMounted(loadData);
 </script>
 
+<style lang="scss" scoped>
+/* 订单管理页面样式 */
+.orders-page {
+  --orders-bg: hsl(var(--background));
+  --orders-card: hsl(var(--card));
+  --orders-border: hsl(var(--border));
+  --orders-muted: hsl(var(--muted));
+  --orders-muted-foreground: hsl(var(--muted-foreground));
+  --orders-primary: hsl(var(--primary));
+  --orders-radius: var(--radius, 8px);
+  --orders-space-2: 8px;
+  --orders-space-3: 12px;
+  --orders-space-4: 16px;
+}
+
+/* 主卡片容器 */
+.orders-card {
+  background: var(--orders-card);
+  border: 1px solid var(--orders-border);
+  border-radius: var(--orders-radius);
+  overflow: hidden;
+}
+
+/* 搜索区块 */
+.orders-search {
+  padding: var(--orders-space-4);
+  border-bottom: 1px solid var(--orders-border);
+
+  :deep(.ant-form-inline) {
+    gap: var(--orders-space-3);
+  }
+
+  :deep(.ant-form-item) {
+    margin-bottom: 0;
+  }
+}
+
+/* 表格区块 */
+.orders-table-wrap {
+  padding: var(--orders-space-4);
+
+  // 表格样式
+  :deep(.ant-table) {
+    .ant-table-thead > tr > th {
+      background: var(--orders-muted);
+      font-weight: 600;
+    }
+  }
+}
+
+/* 操作按钮区域 */
+.orders-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--orders-space-2);
+  margin-bottom: var(--orders-space-4);
+  padding-bottom: var(--orders-space-4);
+  border-bottom: 1px solid var(--orders-border);
+}
+
+/* 模态框样式 */
+.orders-modal {
+  :deep(.ant-modal-content) {
+    border-radius: var(--orders-radius);
+    overflow: hidden;
+  }
+
+  :deep(.ant-modal-header) {
+    padding: var(--orders-space-4);
+    border-bottom: 1px solid var(--orders-border);
+  }
+
+  :deep(.ant-modal-body) {
+    padding: var(--orders-space-4);
+  }
+
+  :deep(.ant-modal-footer) {
+    padding: var(--orders-space-3) var(--orders-space-4);
+    border-top: 1px solid var(--orders-border);
+  }
+}
+
+/* 响应式适配 */
+@media (max-width: 768px) {
+  .orders-search {
+    :deep(.ant-form-inline) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--orders-space-2);
+
+      .ant-form-item {
+        margin-bottom: var(--orders-space-2);
+      }
+    }
+  }
+
+  .orders-toolbar {
+    flex-wrap: wrap;
+  }
+
+  :deep(.ant-table-wrapper) {
+    overflow-x: auto;
+  }
+}
+</style>
+
 <template>
-  <Page title="订单管理" description="订单的增删改查演示">
-    <!-- Search -->
-    <Form layout="inline" class="mb-4">
-      <Form.Item label="订单号">
-        <Input
-          v-model:value="searchForm.orderNo"
-          placeholder="请输入订单号"
-          allow-clear
-        />
-      </Form.Item>
-      <Form.Item label="客户名">
-        <Input
-          v-model:value="searchForm.customerName"
-          placeholder="请输入客户名"
-          allow-clear
-        />
-      </Form.Item>
-      <Form.Item label="状态">
-        <Select
-          v-model:value="searchForm.status"
-          placeholder="请选择状态"
-          allow-clear
-          style="width: 150px"
-        >
-          <Select.Option
-            v-for="opt in statusOptions"
-            :key="opt.value"
-            :value="opt.value"
-          >
-            {{ opt.label }}
-          </Select.Option>
-        </Select>
-      </Form.Item>
-      <Form.Item>
-        <Space>
-          <Button type="primary" @click="handleSearch">搜索</Button>
-          <Button @click="handleReset">重置</Button>
-        </Space>
-      </Form.Item>
-    </Form>
-
-    <!-- Actions -->
-    <Space class="mb-4">
-      <Button type="primary" @click="handleAdd">新增订单</Button>
-      <Button
-        danger
-        :disabled="selectedRowKeys.length === 0"
-        @click="handleBatchDelete"
-      >
-        批量删除
-      </Button>
-      <Button @click="handleExport">导出 CSV</Button>
-    </Space>
-
-    <!-- Table -->
-    <Table
-      :columns="columns"
-      :data-source="dataSource"
-      :loading="loading"
-      :pagination="{
-        ...pagination,
-        showSizeChanger: true,
-        showTotal: (total: number) => `共 ${total} 条`,
-      }"
-      :scroll="{ x: 1000 }"
-      :row-selection="{
-        selectedRowKeys,
-        onChange: (keys: number[]) => handleSelectionChange(keys),
-      }"
-      @change="handleTableChange"
-    >
-      <template #bodyCell="{ column, record }">
-        <template v-if="column.dataIndex === 'status'">
-          <Tag :color="statusColorMap[record.status]">
-            {{ statusTextMap[record.status] }}
-          </Tag>
-        </template>
-        <template v-else-if="column.dataIndex === 'amount'">
-          ¥{{ record.amount?.toFixed(2) ?? '0.00' }}
-        </template>
-        <template v-else-if="column.dataIndex === 'createTime'">
-          {{ record.createTime.slice(0, 19).replace('T', ' ') }}
-        </template>
-        <template v-else-if="column.key === 'action'">
-          <Space>
-            <Button size="small" type="link" @click="handleEdit(record)">
-              编辑
-            </Button>
-            <Button
-              size="small"
-              type="link"
-              danger
-              @click="handleDelete(record.id)"
+  <div class="orders-page">
+    <!-- 主卡片 -->
+    <div class="orders-card">
+      <!-- 搜索区块 -->
+      <div class="orders-search">
+        <Form layout="inline">
+          <Form.Item label="订单号">
+            <Input
+              v-model:value="searchForm.orderNo"
+              placeholder="请输入订单号"
+              allow-clear
+            />
+          </Form.Item>
+          <Form.Item label="客户名">
+            <Input
+              v-model:value="searchForm.customerName"
+              placeholder="请输入客户名"
+              allow-clear
+            />
+          </Form.Item>
+          <Form.Item label="状态">
+            <Select
+              v-model:value="searchForm.status"
+              placeholder="请选择状态"
+              allow-clear
+              style="width: 150px"
             >
-              删除
-            </Button>
-          </Space>
-        </template>
-      </template>
-    </Table>
+              <Select.Option
+                v-for="opt in statusOptions"
+                :key="opt.value"
+                :value="opt.value"
+              >
+                {{ opt.label }}
+              </Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item>
+            <Space>
+              <Button type="primary" @click="handleSearch">搜索</Button>
+              <Button @click="handleReset">重置</Button>
+            </Space>
+          </Form.Item>
+        </Form>
+      </div>
+
+      <!-- 表格区块 -->
+      <div class="orders-table-wrap">
+        <!-- 操作按钮 -->
+        <div class="orders-toolbar">
+          <Button type="primary" @click="handleAdd">新增订单</Button>
+          <Button
+            danger
+            :disabled="selectedRowKeys.length === 0"
+            @click="handleBatchDelete"
+          >
+            批量删除
+          </Button>
+          <Button @click="handleExport">导出 CSV</Button>
+        </div>
+
+        <!-- 表格 -->
+        <Table
+          :columns="columns"
+          :data-source="dataSource"
+          :loading="loading"
+          :pagination="{
+            ...pagination,
+            showSizeChanger: true,
+            showTotal: (total: number) => `共 ${total} 条`,
+          }"
+          :scroll="{ x: 1000 }"
+          :row-selection="{
+            selectedRowKeys,
+            onChange: (keys: number[]) => handleSelectionChange(keys),
+          }"
+          @change="handleTableChange"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.dataIndex === 'status'">
+              <Tag :color="statusColorMap[record.status]">
+                {{ statusTextMap[record.status] }}
+              </Tag>
+            </template>
+            <template v-else-if="column.dataIndex === 'amount'">
+              ¥{{ record.amount?.toFixed(2) ?? '0.00' }}
+            </template>
+            <template v-else-if="column.dataIndex === 'createTime'">
+              {{ record.createTime.slice(0, 19).replace('T', ' ') }}
+            </template>
+            <template v-else-if="column.key === 'action'">
+              <Space>
+                <Button size="small" type="link" @click="handleEdit(record)">
+                  编辑
+                </Button>
+                <Button
+                  size="small"
+                  type="link"
+                  danger
+                  @click="handleDelete(record.id)"
+                >
+                  删除
+                </Button>
+              </Space>
+            </template>
+          </template>
+        </Table>
+      </div>
+    </div>
 
     <!-- Modal -->
     <Modal
       v-model:open="modalVisible"
       :title="modalTitle"
       :confirm-loading="loading"
+      class="orders-modal"
       @ok="handleSubmit"
     >
       <Form layout="vertical">
@@ -395,5 +508,5 @@ onMounted(loadData);
         </Form.Item>
       </Form>
     </Modal>
-  </Page>
+  </div>
 </template>
